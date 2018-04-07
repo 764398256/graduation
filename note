@@ -1,10 +1,14 @@
 note for graduation
 
+
 blog for csi install:https://blog.csdn.net/qq_20604671/article/details/53996239
+
 
 Before installing sougoupingyin,you should install fcitx first.
 
+
 windows disk management：diskmgmt.msc
+
 
 win10 pro code
 VK7JG-NPHTM-C97JM-9MPGT-3V66T
@@ -12,6 +16,31 @@ VK7JG-NPHTM-C97JM-9MPGT-3V66T
 win8 pro code
 XHQ8N-C3MCJ-RQXB6-WCHYG-C9WKB
 
+
 gitlab
 name:weigao1024
 pw:chen852gao
+
+
+matlab17a on ubuntu
+
+mkdir ~/Matlab
+sudo mount -t auto -o loop *dvd1.iso所在的绝对路径 ~/Matlab
+
+sudo ~/Matlab/install 
+
+Use a File Installation Key:
+09806-07443-53955-64350-21751-41297
+
+sudo mount -t auto -o loop *dvd2.iso所在的绝对路径 ~/Matlab  
+
+sudo umount ~/Matlab  
+sudo umount ~/Matlab  
+
+sudo rm -r ~/Matlab
+
+sudo mkdir /usr/local/MATLAB/R2017a/bin/licenses/  
+sudo cp license_standalone.lic所在的目录 /usr/local/MATLAB/R2017a/bin/licenses/  
+sudo cp libmwservices.so所在的目录 /usr/local/MATLAB/R2017a/bin/glnxa64/
+
+sudo /usr/local/MATLAB/R2017a/bin/matlab   
