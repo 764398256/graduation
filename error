@@ -57,5 +57,27 @@ sudo dpkg -i picoscenes-plugins*.deb
 
 
 
+	System.map "/boot"
+run-parts: executing /etc/kernel/postinst.d/apt-auto-removal 4.9.27+ /boot/vmlinuz-4.9.27+
+run-parts: executing /etc/kernel/postinst.d/initramfs-tools 4.9.27+ /boot/vmlinuz-4.9.27+
+update-initramfs: Generating /boot/initrd.img-4.9.27+
+WARNING: missing /lib/modules/4.9.27+
+Ensure all necessary drivers are built into the linux image!
+depmod: ERROR: could not open directory /lib/modules/4.9.27+: No such file or directory
+depmod: FATAL: could not search modules: No such file or directory
+depmod: WARNING: could not open /var/tmp/mkinitramfs_Pvq0Xc/lib/modules/4.9.27+/modules.order: No such file or directory
+depmod: WARNING: could not open /var/tmp/mkinitramfs_Pvq0Xc/lib/modules/4.9.27+/modules.builtin: No such file or directory
+run-parts: executing /etc/kernel/postinst.d/pm-utils 4.9.27+ /boot/vmlinuz-4.9.27+
+run-parts: executing /etc/kernel/postinst.d/unattended-upgrades 4.9.27+ /boot/vmlinuz-4.9.27+
+run-parts: executing /etc/kernel/postinst.d/update-notifier 4.9.27+ /boot/vmlinuz-4.9.27+
+run-parts: executing /etc/kernel/postinst.d/zz-update-grub 4.9.27+ /boot/vmlinuz-4.9.27+
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-4.13.0-36-generic
+Found initrd image: /boot/initrd.img-4.13.0-36-generic
+Found linux image: /boot/vmlinuz-4.9.27+
+Found initrd image: /boot/initrd.img-4.9.27+
+Found Windows Boot Manager on /dev/sda2@/EFI/Microsoft/Boot/bootmgfw.efi
+Adding boot menu entry for EFI firmware configuration
+done
 
 
