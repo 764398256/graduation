@@ -1,4 +1,4 @@
-%  -> 
+%  ->
 %  功能：spotifi算法
 %  参数表：csi_trace -> csi原始数据（可抽样）, frequency -> 载波频率, sub_freq_delta -> 相邻子载波频率差, antenna_distance -> 天线间距, data_name -> 不明
 %  输出：aoa_packet_data -> 每个数据包的aoa，即从每个数据包的music频谱得到的波峰对应的aoa,tof_packet_data -> 每个数据包的tof，即从每个数据包的music频谱得到的波峰对应的tof,output_top_aoas -> 前5个最有可能是直达路径的AOA
@@ -29,7 +29,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
     sanitized_csi = spotfi_algorithm_1(csi, sub_freq_delta);
     % smoothed CSI matrix
     smoothed_sanitized_csi = smooth_csi(sanitized_csi);
-    % Run SpotFi's AoA-ToF MUSIC algorithm on the smoothed and sanitized CSI matrix
+    % Run SpotFi AoA-ToF MUSIC algorithm on the smoothed and sanitized CSI matrix
     [aoa_packet_data{1}, tof_packet_data{1}] = aoa_tof_music(smoothed_sanitized_csi, antenna_distance, frequency, sub_freq_delta, data_name);
     fprintf('1\n');
 
@@ -49,13 +49,13 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
 
         % Acquire smoothed CSI matrix
         smoothed_sanitized_csi = smooth_csi(sanitized_csi);
-        % Run SpotFi's AoA-ToF MUSIC algorithm on the smoothed and sanitized CSI matrix
+        % Run SpotFi AoA-ToF MUSIC algorithm on the smoothed and sanitized CSI matrix
         [aoa_packet_data{packet_index}, tof_packet_data{packet_index}] = aoa_tof_music(smoothed_sanitized_csi, antenna_distance, frequency, sub_freq_delta, data_name);
         fprintf('%d\n',packet_index);
     end
-	
+
 	% 到这里，所有的包都进行了MUSIC算法的处理，接下来就是聚类运算
-	
+
     % Find the number of elements that will be in the full_measurement_matrix
     % The value must be computed since each AoA may have a different number of ToF peaks
     full_measurement_matrix_size = 0;

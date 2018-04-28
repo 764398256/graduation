@@ -34,5 +34,5 @@ function [csi_matrix, phase_matrix] = spotfi_algorithm_1(csi_matrix, delta_f, pa
     end
     % ？？？
     csi_matrix = R .* exp(1i * phase_matrix);
-    disp('test')
+    
 end

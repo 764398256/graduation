@@ -2,12 +2,13 @@
 %  功能：寻找波峰
 %  参数表：Pmusic -> 待测矩阵,theta -> 角度可选范围,tau -> 飞行时间可选范围
 %  输出：estimated_aoas -> 预测来波角度, estimated_tofs -> 预测飞行时间
-%  简介：暂无
+%  简介：此函数本身不明白
 %
 function [estimated_aoas, estimated_tofs] = find_music_peaks(Pmusic,theta,tau)
+    % 在MUSIC计算结果中的第一列寻找aoa最大值并抽出
     [~, aoa_peak_indices] = findpeaks(Pmusic(:, 1));
     estimated_aoas = theta(aoa_peak_indices);
-    % Find ToF peaks
+    % 预设tof返回值
     time_peak_indices = zeros(length(aoa_peak_indices), length(tau));
     % AoA loop (only looping over peaks in AoA found above)
     for ii = 1:length(aoa_peak_indices)
