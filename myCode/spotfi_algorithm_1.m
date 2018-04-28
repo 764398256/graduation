@@ -5,8 +5,9 @@
 %  简介：通过线性拟合找到tau值，然后根据公式计算相位差，最后合并
 %
 function [csi_matrix, phase_matrix] = spotfi_algorithm_1(csi_matrix, delta_f, packet_one_phase_matrix)
-    % 解卷绕
+    % R是csi_matrix的幅度值
     R = abs(csi_matrix);
+    % 解卷绕：获取csi_matrix的角度（相位），消去所有大于pi的突变，2表示对每一行进行解卷绕操作
     phase_matrix = unwrap(angle(csi_matrix), pi, 2);
     tmp = csi_matrix;
     % 参数处理
@@ -32,7 +33,7 @@ function [csi_matrix, phase_matrix] = spotfi_algorithm_1(csi_matrix, delta_f, pa
             phase_matrix(m, n) = packet_one_phase_matrix(m, n) + (2 * pi * delta_f * (n - 1) * tau);
         end
     end
-    % ？？？
+    % 恢复成复数形式，会有小数点后14位的差异
     csi_matrix = R .* exp(1i * phase_matrix);
-    
+
 end
