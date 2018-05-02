@@ -1,8 +1,8 @@
-% 
+%
 %  功能：MUSIC算法本体
 %  参数表：theta -> 来波角度范围,tau -> 飞行时间范围,frequency -> 载波频率, sub_freq_delta -> 相邻子载波频率差, antenna_distance -> 天线间距,eigenvectors -> 特征向量组
 %  输出：Pmusic -> 计算结果矩阵
-%  简介：不解释
+%  简介：改参数的话在compute_steering_vector中更改方向向量的大小和深度
 %
 function Pmusic = music_spectrum(theta,tau,frequency, sub_freq_delta, antenna_distance,eigenvectors)
     Pmusic = zeros(length(theta), length(tau));
@@ -28,7 +28,7 @@ function Pmusic = music_spectrum(theta,tau,frequency, sub_freq_delta, antenna_di
     end
 end
 
-% 
+%
 %  功能：计算方向向量
 %  参数表：theta -> 来波角度, tau -> 飞行时间, freq -> 载波频率, sub_freq_delta -> 相邻子载波频率差, ant_dist -> 天线间距
 %  输出：steering_vector -> 方向向量
@@ -47,7 +47,7 @@ function steering_vector = compute_steering_vector(theta, tau, freq, sub_freq_de
     end
 end
 
-% 
+%
 %  功能：根据tof计算相位偏移
 %  参数表：tau -> 飞行时间, sub_freq_delta -> 相邻子载波频率差
 %  输出：time_phase -> 相位差
@@ -57,7 +57,7 @@ function time_phase = omega_tof_phase(tau, sub_freq_delta)
     time_phase = exp(-1i * 2 * pi * sub_freq_delta * tau);
 end
 
-% 
+%
 %  功能：根据来波角度计算相位偏移
 %  参数表：theta -> 来波角度, frequency -> 载波频率, d -> 天线间距
 %  输出：angle_phase -> 相位差

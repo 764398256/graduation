@@ -2,7 +2,9 @@
 %  功能：消除STO对数据的影响
 %  参数表：csi_matrix -> 待处理的csi矩阵, delta_f -> 相邻子载波的频率差, packet_one_phase_matrix -> 每个数据第一个数据包的csi矩阵
 %  输出：csi_matrix -> 完成处理的csi矩阵, phase_matrix -> 需要修改的相位差矩阵
-%  简介：通过线性拟合找到tau值，然后根据公式计算相位差，最后合并
+%  简介：
+%    1.参数表里的csi_matrix是复数形式，本算法先将其转换成相位形式（R，幅度矩阵，phase_matrix，相位矩阵），进行sto误差处理后再还原成复数形式。
+%    2.关于sto误差处理，论文中使用公式来得出每个数据包中的sto常量tau，然后使用另一个公式消除该误差。此算法只在计算tau的时候用了另一种方法，其余未变
 %
 function [csi_matrix, phase_matrix] = spotfi_algorithm_1(csi_matrix, delta_f, packet_one_phase_matrix)
     % R是csi_matrix的幅度值
