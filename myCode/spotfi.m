@@ -56,6 +56,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
 
 	% 到这里，所有的包都进行了MUSIC算法的处理，接下来就是聚类运算
 
+    % FROM HERE
     % Find the number of elements that will be in the full_measurement_matrix
     % The value must be computed since each AoA may have a different number of ToF peaks
     full_measurement_matrix_size = 0;
@@ -98,6 +99,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
             end
         end
     end
+    % TO HERE
 
     % Normalize AoA & ToF
     fprintf('Normalize AoA &ToF\n');
@@ -141,14 +143,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
     weight_tof_variance = 0.0441 * 10^-3;
     weight_tof_mean = -0.0474 * 10^-3;
     constant_offset = -1;
-    %{
-    weight_num_cluster_points = 5;
-    weight_aoa_variance = 50000; % prev = 10000; prev = 100000;
-    weight_tof_variance = 100000;
-    weight_tof_mean = 1000; % prev = 50; % prev = 10;
-    %}
-    %constant_offset = 300;
-    % Compute likelihoods
+
     likelihood = zeros(length(clusters), 1);
     cluster_aoa = zeros(length(clusters), 1);
     max_likelihood_index = -1;
@@ -179,14 +174,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
         aoa_variance = aoa_variance / (num_cluster_points - 1);
         tof_variance = tof_variance / (num_cluster_points - 1);
         % Compute Likelihood
-        %% TODO: Trying result from SVM
-        %{
-        exp_body = weight_num_cluster_points * num_cluster_points ...
-                - weight_aoa_variance * aoa_variance ...
-                - weight_tof_variance * tof_variance ...
-                - weight_tof_mean * tof_mean ...
-                - constant_offset;
-        %}
+        
         exp_body = weight_num_cluster_points * num_cluster_points ...
                 + weight_aoa_variance * aoa_variance ...
                 + weight_tof_variance * tof_variance ...

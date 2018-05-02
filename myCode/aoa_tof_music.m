@@ -19,11 +19,11 @@ function [estimated_aoas, estimated_tofs] = aoa_tof_music(x, antenna_distance, f
     % 选出所有疑似值并返回
     [estimated_aoas, estimated_tofs] = find_music_peaks(Pmusic,theta,tau);
     % 画图
-    [x,y] = meshgrid(theta, tau);
-    figure(1);
-    mesh(x,y,Pmusic');
-    xlabel('AoA');
-    ylabel('ToF');
-    xlim([-90 90]);
-    colorbar;
+    % [x,y] = meshgrid(theta, tau);
+    % figure(1);
+    % mesh(x,y,Pmusic');
+    % xlabel('AoA');
+    % ylabel('ToF');
+    % xlim([-90 90]);
+    % colorbar;
 end

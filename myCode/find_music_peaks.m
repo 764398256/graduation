@@ -2,7 +2,7 @@
 %  功能：寻找波峰
 %  参数表：Pmusic -> 待测矩阵,theta -> 角度可选范围,tau -> 飞行时间可选范围
 %  输出：estimated_aoas -> 预测来波角度, estimated_tofs -> 预测飞行时间
-%  简介：此函数本身不明白
+%  简介：MUSIC算法在计算完毕之后，通过得到的结果中的波峰来预测来波角度，即，在Pmusic中寻找波峰，其值就是来波角度的预测值候选。需要解明Pmusic行和列的含义。
 %
 function [estimated_aoas, estimated_tofs] = find_music_peaks(Pmusic,theta,tau)
     % 在MUSIC计算结果中的第一列寻找aoa最大值并抽出
