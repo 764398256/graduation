@@ -5,7 +5,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = test(filepath)
     antenna_distance = 0.06;
     frequency = 5.825 * 10^9;
     sub_freq_delta = (20 * 10^6) /30;
-    
+
     csi_trace = readfile(filepath);
     num_packets = floor(length(csi_trace)/1);
     sampled_csi_trace = csi_sampling(csi_trace, num_packets, 1, length(csi_trace));
@@ -19,19 +19,19 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
     end
 	% 包的数量
     num_packets = length(csi_trace);
-    % 预设返回�?
+    % 预设返回值
     aoa_packet_data = cell(num_packets, 1);
     tof_packet_data = cell(num_packets, 1);
     packet_one_phase_matrix = 0;
-	% 抽取第一个包数据，作为比较基�?
+	% 抽取第一个包数据，作为比较基础
     csi_entry = csi_trace{1};
     csi = get_scaled_csi(csi_entry);
-    % 只�?�虑第一根天�?
+    % 只考虑第一根天线
     csi = csi(1, :, :);
     % 降维
     csi = squeeze(csi);
 
-    % 对第�?个包进行MUSIC前的处理
+    % 对第一个包进行MUSIC前的处理
 	% 论文中的Algorithm 1
     packet_one_phase_matrix = unwrap(angle(csi), pi, 2);
     sanitized_csi = spotfi_algorithm_1(csi, sub_freq_delta);
@@ -42,7 +42,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
     fprintf('1\n');
 
     % TODO: REMEMBER THIS IS A PARFOR LOOP, AND YOU CHANGED THE ABOVE CODE AND THE BEGIN INDEX
-    % 以第�?个包为基准，对其余的包进行同样的处理
+    % 以第一个包为基准，对其余的包进行同样的处理
 	parfor (packet_index = 2:num_packets, 4)
         % Get CSI for current packet
         csi_entry = csi_trace{packet_index};
@@ -62,7 +62,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
         fprintf('%d\n',packet_index);
     end
     % FROM HERE
-    % Find the number of elements that will be in the full_measurement_matrix
+    % 把aoa及其对应tof（有可能一个角度有多个对应时间）两两一组写进数组，为聚类作准备
     % The value must be computed since each AoA may have a different number of ToF peaks
     full_measurement_matrix_size = 0;
     % Packet Loop
@@ -106,15 +106,14 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
     end
     % TO HERE
 
-    % Normalize AoA & ToF
+    % 标准化
     fprintf('Normalize AoA &ToF\n');
     aoa_max = max(abs(full_measurement_matrix(:, 1)));
     tof_max = max(abs(full_measurement_matrix(:, 2)));
     full_measurement_matrix(:, 1) = full_measurement_matrix(:, 1) / aoa_max;
     full_measurement_matrix(:, 2) = full_measurement_matrix(:, 2) / tof_max;
 
-    % Cluster AoA and ToF for each packet
-    % Worked Pretty Well
+    % 聚类算法
     fprintf('Clustering\n');
     [cluster_indices,clusters] = aoa_tof_cluster(full_measurement_matrix);
 
@@ -179,7 +178,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
         aoa_variance = aoa_variance / (num_cluster_points - 1);
         tof_variance = tof_variance / (num_cluster_points - 1);
         % Compute Likelihood
-        
+
         exp_body = weight_num_cluster_points * num_cluster_points ...
                 + weight_aoa_variance * aoa_variance ...
                 + weight_tof_variance * tof_variance ...
