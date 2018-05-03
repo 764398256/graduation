@@ -19,19 +19,19 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
     end
 	% 包的数量
     num_packets = length(csi_trace);
-    % 预设返回值
+    % 预设返回�?
     aoa_packet_data = cell(num_packets, 1);
     tof_packet_data = cell(num_packets, 1);
     packet_one_phase_matrix = 0;
-	% 抽取第一个包数据，作为比较基础
+	% 抽取第一个包数据，作为比较基�?
     csi_entry = csi_trace{1};
     csi = get_scaled_csi(csi_entry);
-    % 只考虑第一根天线
+    % 只�?�虑第一根天�?
     csi = csi(1, :, :);
     % 降维
     csi = squeeze(csi);
 
-    % 对第一个包进行MUSIC前的处理
+    % 对第�?个包进行MUSIC前的处理
 	% 论文中的Algorithm 1
     packet_one_phase_matrix = unwrap(angle(csi), pi, 2);
     sanitized_csi = spotfi_algorithm_1(csi, sub_freq_delta);
@@ -42,7 +42,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
     fprintf('1\n');
 
     % TODO: REMEMBER THIS IS A PARFOR LOOP, AND YOU CHANGED THE ABOVE CODE AND THE BEGIN INDEX
-    % 以第一个包为基准，对其余的包进行同样的处理
+    % 以第�?个包为基准，对其余的包进行同样的处理
 	parfor (packet_index = 2:num_packets, 4)
         % Get CSI for current packet
         csi_entry = csi_trace{packet_index};
@@ -59,10 +59,10 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
         smoothed_sanitized_csi = smooth_csi(sanitized_csi);
         % Run SpotFi's AoA-ToF MUSIC algorithm on the smoothed and sanitized CSI matrix
         [aoa_packet_data{packet_index}, tof_packet_data{packet_index}] = aoa_tof_music(smoothed_sanitized_csi, antenna_distance, frequency, sub_freq_delta, data_name);
-        fprintf('%d\n',packet_index);
+        % fprintf('%d\n',packet_index);
     end
     % FROM HERE
-    % 把aoa及其对应tof（有可能一个角度有多个对应时间）两两一组写进数组，为聚类作准备
+    % 把aoa及其对应tof（有可能�?个角度有多个对应时间）两两一组写进数组，为聚类作准备
     % The value must be computed since each AoA may have a different number of ToF peaks
     full_measurement_matrix_size = 0;
     % Packet Loop
@@ -106,7 +106,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
     end
     % TO HERE
 
-    % 标准化
+    % 标准�?
     fprintf('Normalize AoA &ToF\n');
     aoa_max = max(abs(full_measurement_matrix(:, 1)));
     tof_max = max(abs(full_measurement_matrix(:, 2)));
@@ -117,6 +117,8 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
     fprintf('Clustering\n');
     [cluster_indices,clusters] = aoa_tof_cluster(full_measurement_matrix);
 
+    data_cluster = clusters_find(clusters)
+    
     % Delete outliers from each cluster
     fprintf('delete outliers\n');
     for ii = 1:size(clusters, 1)
