@@ -1,6 +1,6 @@
 function [aoa_packet_data,tof_packet_data,output_top_aoas] = test(filepath)
     if nargin < 1
-        filepath='data/test.dat';
+        filepath='data/2m-90-1.dat';
     end
     antenna_distance = 0.06;
     frequency = 5.825 * 10^9;
@@ -110,8 +110,8 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
     fprintf('Normalize AoA &ToF\n');
     aoa_max = max(abs(full_measurement_matrix(:, 1)));
     tof_max = max(abs(full_measurement_matrix(:, 2)));
-    full_measurement_matrix(:, 1) = full_measurement_matrix(:, 1) / aoa_max;
-    full_measurement_matrix(:, 2) = full_measurement_matrix(:, 2) / tof_max;
+    % full_measurement_matrix(:, 1) = full_measurement_matrix(:, 1) / aoa_max;
+    % full_measurement_matrix(:, 2) = full_measurement_matrix(:, 2) / tof_max;
 
     % 聚类算法
     fprintf('Clustering\n');
