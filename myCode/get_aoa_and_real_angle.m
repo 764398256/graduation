@@ -15,7 +15,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_an
     aoa_packet_data = cell(num_packets, 1);
     tof_packet_data = cell(num_packets, 1);
     
-    parfor (i = 1:10000,10)
+    parfor (i = 40001:50000,4)
     % for i = 1:50
         csi_entry = csi_trace{i};
         csi = get_scaled_csi(csi_entry);
@@ -25,6 +25,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_an
         sanitized_csi = spotfi_algorithm_1(csi, sub_freq_delta);
         smoothed_sanitized_csi = smooth_csi(sanitized_csi);
         [aoa_packet_data{i}, tof_packet_data{i}] = aoa_tof_music(smoothed_sanitized_csi, antenna_distance, frequency, sub_freq_delta, data_name);
+        disp(i);
     end
     disp('music over');
     l = 0;
@@ -39,12 +40,13 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_an
         end
     end
     disp('full over');
-    tmp = sort(full_measurement_matrix(:,1));
-    scatter(1:size(tmp,1),tmp);
+    % tmp = sort(full_measurement_matrix(:,1));
+    % scatter(1:size(tmp,1),tmp);
     aoa_max = max(abs(full_measurement_matrix(:, 1)));
     tof_max = max(abs(full_measurement_matrix(:, 2)));
     full_measurement_matrix(:, 1) = full_measurement_matrix(:, 1) / aoa_max;
     full_measurement_matrix(:, 2) = full_measurement_matrix(:, 2) / tof_max;
+    write_to_file(full_measurement_matrix,aoa_max,tof_max)
     scatter(full_measurement_matrix(:,1),full_measurement_matrix(:,2))
     [cluster_indices,clusters] = aoa_tof_cluster(full_measurement_matrix);
     data_cluster = clusters_find(clusters);
