@@ -5,7 +5,7 @@
 %  简介：此算法是MUSIC算法的一部分，根据矩阵数据得出特征向量组。一部分是数据，另一部分是噪声，因为MUSIC的输入必须是方阵，所以才有上一步的smooth_csi后的x矩阵
 %
 function eigenvectors = noise_space_eigenvectors(x)
-    % A new MUSIC algorithm from up-grade
+    % 来自学长
     % 入射信号个数
     signal_N = 1;
     % 表示天线个数有3个，相当于阵列信号中的阵列个数

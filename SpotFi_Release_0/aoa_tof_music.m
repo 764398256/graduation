@@ -13,17 +13,9 @@ function [estimated_aoas, estimated_tofs] = aoa_tof_music(x, antenna_distance, f
     eigenvectors = noise_space_eigenvectors(x);
     % 角度范围，飞行时间范围
     theta = -90:1:90;
-    tau = 0:(1.0 * 10^-9):(100 * 10^-9);
+    tau = 0:(1.0e-9):(100e-9);
     % MUSIC算法，返回每个csi数据在每个角度，每个飞行时间的计算结果
     Pmusic = music_spectrum(theta,tau,frequency, sub_freq_delta, antenna_distance,eigenvectors);
     % 选出所有疑似值并返回
     [estimated_aoas, estimated_tofs] = find_music_peaks(Pmusic,theta,tau);
-    % 画图
-    % [x,y] = meshgrid(theta, tau);
-    % figure(1);
-    % mesh(x,y,Pmusic');
-    % xlabel('AoA');
-    % ylabel('ToF');
-    % xlim([-90 90]);
-    % colorbar;
 end

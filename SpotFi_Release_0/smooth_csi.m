@@ -5,6 +5,7 @@
 %  简介：按照固定格式，把矩阵大小从3x30变成30x30
 %
 function smoothed_csi = smooth_csi(csi)
+    % 参数预设
     half_of_rank = 14;
     start_of_row = [1,16];
     start_of_col = [1,16];

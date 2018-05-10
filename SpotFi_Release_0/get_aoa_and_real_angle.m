@@ -75,11 +75,15 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_an
     full_measurement_matrix(:, 2) = full_measurement_matrix(:, 2) / tof_max;
     % 聚类算法
     [cluster_indices,clusters] = aoa_tof_cluster(full_measurement_matrix);
+    % data_cluster = clusters_find(clusters);
+    % pair_of_aoa_tof = full_measurement_matrix;
+    vari = cluster_weight(clusters,aoa_max,tof_max);
+    % clusters_write_to_file(vari);
     disp('Completeed: cluster generation.');
 
     % --------------------------------------
     % likelihood公式
-    output_top_aoas = likelihood(cluster_weight(clusters,aoa_max,tof_max))
+    output_top_aoas = get_likelihood(cluster_weight(clusters,aoa_max,tof_max))
     disp('Completeed: calculation of likelihood for every path.');
     disp('Completeed: All project.');
 end
