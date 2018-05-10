@@ -1,11 +1,12 @@
 %   ->
-%  功能：
+%  功能�?
 %  参数表：full_measurement_matrix -> 经过处理的矩阵，第一列是aoa，第二列是tof
-%  输出：cluster_indices -> 抽取的聚类编号,clusters -> 聚类结果
-%  简介：聚类算法
+%  输出：cluster_indices -> 抽取的聚类编�?,clusters -> 聚类结果
+%  �?介：聚类算法
 %
 function [cluster_indices,clusters] = aoa_tof_cluster(full_measurement_matrix)
-    linkage_tree = linkage(full_measurement_matrix, 'ward');
+    X = pdist(full_measurement_matrix,'euclidean');
+    linkage_tree = linkage(X, 'ward');
     cluster_indices_vector = cluster(linkage_tree, 'CutOff', 1.0, 'criterion', 'distance');
     cluster_count_vector = zeros(0, 1);
     num_clusters = 0;

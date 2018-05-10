@@ -47,10 +47,11 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_an
     full_measurement_matrix(:, 1) = full_measurement_matrix(:, 1) / aoa_max;
     full_measurement_matrix(:, 2) = full_measurement_matrix(:, 2) / tof_max;
     write_to_file(full_measurement_matrix,aoa_max,tof_max)
-    scatter(full_measurement_matrix(:,1),full_measurement_matrix(:,2))
+    % scatter(full_measurement_matrix(:,1),full_measurement_matrix(:,2))
     [cluster_indices,clusters] = aoa_tof_cluster(full_measurement_matrix);
-    data_cluster = clusters_find(clusters);
-    pair_of_aoa_tof = full_measurement_matrix;
+    % data_cluster = clusters_find(clusters);
+    % pair_of_aoa_tof = full_measurement_matrix;
+    vari = cluster_weight(clusters,aoa_max,tof_max);
     disp('cluster');
     
     fprintf('likelihood\n');
