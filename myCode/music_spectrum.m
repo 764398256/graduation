@@ -17,7 +17,7 @@ function Pmusic = music_spectrum(theta,tau,frequency, sub_freq_delta, antenna_di
         end
     end
 
-    % Convert to decibels转化为分贝，为计算
+    % Convert to decibels转化为分贝，方便计算
     % ToF loop
     for jj = 1:size(Pmusic, 2)
         % AoA loop

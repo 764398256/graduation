@@ -1,3 +1,9 @@
+%   ->
+%  功能：开发脚本
+%  参数表：clusters_struct -> 处理后的clusters
+%  输出：无
+%  简介：提取数据存入外部
+%
 function clusters_write_to_file(clusters_struct)
     if nargin < 2
         name = 'clusters_1_10000.txt'

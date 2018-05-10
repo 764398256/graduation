@@ -1,3 +1,9 @@
+%   ->
+%  功能：开发脚本
+%  参数表：
+%  输出：
+%  简介：输出所有预测的aoa及tof值
+%
 function write_to_file(matrix,aoa_max,tof_max,name)
     if nargin < 4
         name = 'aoa_tof_40001_50000.txt'

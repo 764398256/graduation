@@ -93,7 +93,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_an
     % constant_offset = -1;
     % --------------------------------------
     % likelihood公式
-    output_top_aoas = likelihood(cluster_weight(clusters,aoa_max,tof_max))
+    output_top_aoas = get_likelihood(cluster_weight(clusters,aoa_max,tof_max))
     disp('Completeed: calculation of likelihood for every path.');
     disp('Completeed: All project.');
 end

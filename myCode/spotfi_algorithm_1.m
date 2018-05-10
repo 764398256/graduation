@@ -16,7 +16,7 @@ function [csi_matrix, phase_matrix] = spotfi_algorithm_1(csi_matrix, delta_f, pa
     if nargin < 3
         packet_one_phase_matrix = phase_matrix;
     end
-    % 代替论文中的算式，用图形求出tau
+    % 代替论文中的算式，用图形求出tau，已经老师确认
     fit_X(1:30, 1) = 1:1:30;
     fit_X(31:60, 1) = 1:1:30;
     fit_X(61:90, 1) = 1:1:30;

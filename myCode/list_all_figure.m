@@ -1,3 +1,9 @@
+%   ->
+%  功能：开发脚本
+%  参数表：无
+%  输出：无
+%  简介：尝试文件读取
+%
 function list_all_figure
     files = dir(fullfile('data'));
     for i = 1:length(files)

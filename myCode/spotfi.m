@@ -2,7 +2,7 @@
 %  功能：spotifi算法
 %  参数表：csi_trace -> csi原始数据（可抽样）, frequency -> 载波频率, sub_freq_delta -> 相邻子载波频率差, antenna_distance -> 天线间距, data_name -> 不明
 %  输出：aoa_packet_data -> 每个数据包的aoa，即从每个数据包的music频谱得到的波峰对应的aoa,tof_packet_data -> 每个数据包的tof，即从每个数据包的music频谱得到的波峰对应的tof,output_top_aoas -> 前5个最有可能是直达路径的AOA
-%  简介：不解释
+%  简介：原作者脚本
 %
 function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, frequency, sub_freq_delta, antenna_distance, data_name)
     % 参数处理
@@ -174,7 +174,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = spotfi(csi_trace, f
         aoa_variance = aoa_variance / (num_cluster_points - 1);
         tof_variance = tof_variance / (num_cluster_points - 1);
         % Compute Likelihood
-        
+
         exp_body = weight_num_cluster_points * num_cluster_points ...
                 + weight_aoa_variance * aoa_variance ...
                 + weight_tof_variance * tof_variance ...
