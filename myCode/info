@@ -1,0 +1,25 @@
+init:
+    [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_angle
+or
+    [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_angle(filepath)
+filepath: the path of csi_data 
+
+argument:
+
+antenna_distance: 0.06;
+frequency: 5.825 * 10^9;
+sub_freq_delta: (20 * 10^6) /30;
+
+butter:
+    [b,a]=butter(3,0.6,'low');
+    csi = filter(b,a,csi);
+
+cluster:
+    pdist -> metric
+    linkage -> method
+
+weight of likelihood:
+    weight_num_cluster_points = 1e-2;
+    weight_aoa_variance = -8e-2;
+    weight_tof_variance = -1e17;
+    weight_tof_mean = -10e8;
