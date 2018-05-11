@@ -13,7 +13,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_an
     % 参数预设
 
     if nargin < 1
-        filepath='data/90.dat';
+        filepath='data/45.dat';
     end
     % 常量
     data_name = ' - ';
@@ -25,7 +25,7 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_an
     num_packets = floor(length(csi_trace)/1);
     sampled_csi_trace = csi_sampling(csi_trace, num_packets, 1, length(csi_trace));
     % 返回值预设
-    num_packets = length(sampled_csi_trace);
+    num_packets = 100;% length(sampled_csi_trace);
     aoa_packet_data = cell(num_packets, 1);
     tof_packet_data = cell(num_packets, 1);
     % --------------------------------------
@@ -34,8 +34,8 @@ function [aoa_packet_data,tof_packet_data,output_top_aoas] = get_aoa_and_real_an
     % 滤波设置
     [b,a]=butter(3,0.6,'low');
     % 抽出每个包的csi数据，进行滤波等处理，并执行STO去除算法及MUSIC算法
-    parfor (i = 1:500,4)
-    % for i = 1:50
+    parfor (i = 1:num_packets,4)
+    % for i = 1:num_packets
         csi_entry = csi_trace{i};
         csi = get_scaled_csi(csi_entry);
         csi = csi(1, :, :);

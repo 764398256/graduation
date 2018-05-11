@@ -14,4 +14,15 @@ function csi_data = read_csi(filepath)
         csi_data(i,31:60) = csi(2,:);
         csi_data(i,61:90) = csi(3,:);
     end
+    
+    phase = unwrap(angle(csi_data), pi, 2);
+    Y = zeros(90,1);
+    Z = zeros(90,1);
+    for i=1:90
+        Y(i) = mean(abs(csi_data(:,i)));
+        Z(i) = mean(phase(:,i));
+    end
+    % plot(1:90,Y);
+    % plot(1:90,Z);
+    plot(1:90,Y.*exp(1i*Z));
 end

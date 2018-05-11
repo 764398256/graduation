@@ -17,7 +17,7 @@ function [estimated_aoas, estimated_tofs] = aoa_tof_music(x, antenna_distance, f
     % MUSIC算法，返回每个csi数据在每个角度，每个飞行时间的计算结果
     Pmusic = music_spectrum(theta,tau,frequency, sub_freq_delta, antenna_distance,eigenvectors);
     % 选出所有疑似值并返回
-    [estimated_aoas, estimated_tofs] = find_music_peaks(Pmusic,theta,tau);
+    [estimated_aoas, estimated_tofs] = get_aoa_tof_from_music(Pmusic,theta,tau);
     % 画图
     % [x,y] = meshgrid(theta, tau);
     % figure(1);
