@@ -1,4 +1,4 @@
-function test(conf_filepath,csi_filepath)
+function start_spotfi(conf_filepath,csi_filepath)
     if nargin < 1
         conf_filepath = 'conf/conf.xml';
         csi_filepath = 'data/45.dat';

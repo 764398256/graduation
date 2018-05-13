@@ -3,6 +3,6 @@
     <antenna_distance>0.06</antenna_distance>
     <frequency>5.825e9</frequency>
     <sub_freq_delta>20/30e6</sub_freq_delta>
-    <counts_packets>100</counts_packets>
+    <counts_packets>10</counts_packets>
     <counts_likelihood>5</counts_likelihood>
 </conf>
