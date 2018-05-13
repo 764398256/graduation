@@ -1,4 +1,4 @@
-function [cluster_indices,clusters] = get_clusters(full_measurement_matrix)
+function [cluster_indices,clusters] = get_clusters(full_measurement_matrix, counts_packets)
     fprintf('Phase 4: Get Clusters\nStart:\n');
     pause(3);
     X = pdist(full_measurement_matrix,'euclidean');
@@ -20,6 +20,22 @@ function [cluster_indices,clusters] = get_clusters(full_measurement_matrix)
         clusters{cluster_indices_vector(ii, 1)}(tail_index, :) = full_measurement_matrix(ii, :);
         cluster_index_tail_index = size(cluster_indices{cluster_indices_vector(ii, 1)}, 1) + 1;
         cluster_indices{cluster_indices_vector(ii, 1)}(cluster_index_tail_index, 1) = ii;
+    end
+    for ii = 1:size(clusters, 1)
+        if size(clusters{ii}, 1) < (0.05 * counts_packets)
+            clusters{ii} = [];
+            cluster_indices{ii} = [];
+            continue;
+        end
+        alpha = 0.05;
+        [~, outlier_indices, ~] = deleteoutliers(clusters{ii}(:, 1), alpha);
+        cluster_indices{ii}(outlier_indices(:), :) = [];
+        clusters{ii}(outlier_indices(:), :) = [];
+
+        alpha = 0.05;
+        [~, outlier_indices, ~] = deleteoutliers(clusters{ii}(:, 2), alpha);
+        cluster_indices{ii}(outlier_indices(:), :) = [];
+        clusters{ii}(outlier_indices(:), :) = [];
     end
     fprintf('Phase 4 Finished.\n');
     pause(1);

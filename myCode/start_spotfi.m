@@ -11,6 +11,6 @@ function start_spotfi(conf_filepath,csi_filepath)
     [antenna_distance, frequency, sub_freq_delta, counts_packets, counts_likelihood] = get_parameter(conf_filepath);
     [aoa_packet_data, tof_packet_data] = get_aoa_tof_pair(csi_filepath, counts_packets, antenna_distance, frequency, sub_freq_delta);
     [full_measurement_matrix,aoa_max,tof_max] = get_full_measurement_matrix(aoa_packet_data, tof_packet_data);
-    [~,clusters] = get_clusters(full_measurement_matrix);
+    [~,clusters] = get_clusters(full_measurement_matrix, counts_packets);
     result = get_likelihood_matrix(clusters,aoa_max,tof_max,counts_likelihood)
 end
