@@ -12,7 +12,7 @@ function [estimated_aoas, estimated_tofs] = aoa_tof_music(x, antenna_distance, f
     % 特征向量组成的矩阵
     eigenvectors = noise_space_eigenvectors(x);
     % 角度范围，飞行时间范围
-    theta = -90:1:90;
+    theta = -180:1:180;
     tau = 0:(1.0e-9):(100e-9);
     % MUSIC算法，返回每个csi数据在每个角度，每个飞行时间的计算结果
     Pmusic = music_spectrum(theta,tau,frequency, sub_freq_delta, antenna_distance,eigenvectors);

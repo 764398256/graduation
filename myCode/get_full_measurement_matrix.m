@@ -7,7 +7,7 @@ function [full_measurement_matrix,aoa_max,tof_max] = get_full_measurement_matrix
         aoa_matrix = aoa_packet_data{packet_index};
         for j = 1:size(aoa_matrix, 1)
             if tof_matrix(j, 1) <= 0
-                break;
+                continue;
             end
             l = l + 1;
             full_measurement_matrix(l,1) = aoa_matrix(j, 1);
