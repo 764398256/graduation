@@ -12,7 +12,7 @@ function [estimated_aoas, estimated_tofs] = aoa_tof_music(x, antenna_distance, f
     [D,I]=sort(diag(D));
     eigenvectors = V(:,I(1:array_N - signal_N));
 
-    theta = -90:1:90;
+    theta = -180:1:180;
     tau = 0:(1.0e-9):(100e-9);
 
     Pmusic = music_spectrum(theta,tau,frequency, sub_freq_delta, antenna_distance,eigenvectors);

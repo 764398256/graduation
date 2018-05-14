@@ -1,4 +1,4 @@
-function [cluster_indices,clusters] = get_clusters(full_measurement_matrix)
+function [cluster_indices,clusters] = get_clusters(full_measurement_matrix, counts_packets)
     fprintf('Phase 4: Get Clusters\nStart:\n');
     pause(3);
     X = pdist(full_measurement_matrix,'euclidean');
