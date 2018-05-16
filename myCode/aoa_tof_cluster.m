@@ -1,9 +1,3 @@
-%   ->
-%  功能：聚类
-%  参数表：full_measurement_matrix -> 经过处理的矩阵，第一列是aoa，第二列是tof
-%  输出：cluster_indices -> 抽取的聚类编号,clusters -> 聚类结果
-%  简介：聚类算法
-%
 function [cluster_indices,clusters] = aoa_tof_cluster(full_measurement_matrix)
     X = pdist(full_measurement_matrix,'euclidean');
     linkage_tree = linkage(X, 'ward');
@@ -27,5 +21,23 @@ function [cluster_indices,clusters] = aoa_tof_cluster(full_measurement_matrix)
         % Save off the indexes for the data
         cluster_index_tail_index = size(cluster_indices{cluster_indices_vector(ii, 1)}, 1) + 1;
         cluster_indices{cluster_indices_vector(ii, 1)}(cluster_index_tail_index, 1) = ii;
+    end
+    
+    for ii = 1:size(clusters, 1)
+        % Delete clusters that are < 5% of the size of the number of packets
+        if size(clusters{ii}, 1) < (0.05 * num_packets)
+            clusters{ii} = [];
+            cluster_indices{ii} = [];
+            continue;
+        end
+        alpha = 0.05;
+        [~, outlier_indices, ~] = deleteoutliers(clusters{ii}(:, 1), alpha);
+        cluster_indices{ii}(outlier_indices(:), :) = [];
+        clusters{ii}(outlier_indices(:), :) = [];
+
+        alpha = 0.05;
+        [~, outlier_indices, ~] = deleteoutliers(clusters{ii}(:, 2), alpha);
+        cluster_indices{ii}(outlier_indices(:), :) = [];
+        clusters{ii}(outlier_indices(:), :) = [];
     end
 end

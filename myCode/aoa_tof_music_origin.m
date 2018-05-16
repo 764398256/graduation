@@ -1,4 +1,4 @@
-function [estimated_aoas, estimated_tofs] = aoa_tof_music(x, antenna_distance, frequency, sub_freq_delta, snr, data_name)
+function [estimated_aoas, estimated_tofs] = aoa_tof_music_origin(x, antenna_distance, frequency, sub_freq_delta, snr, data_name)
     if nargin == 4
         data_name = '-';
     end
@@ -11,7 +11,7 @@ function [estimated_aoas, estimated_tofs] = aoa_tof_music(x, antenna_distance, f
     [V,D]=eig(R);
     [D,I]=sort(diag(D));
     v = V(:,I(1:array_N - signal_N));
-    eigenvectors = [awgn(v,snr(1));awgn(v,snr(1));awgn(v,snr(1))];
+    eigenvectors = v;
 
     theta = -180:1:180;
     tau = 0:(1.0e-9):(100e-9);
@@ -39,33 +39,31 @@ function [estimated_aoas, estimated_tofs] = aoa_tof_music(x, antenna_distance, f
     end
 
     % aoa => x
-%     aoa_pair_flag = 1;
-%     for i=1:size(Pmusic,1)
-%         [~,tof_index] = findpeaks(Pmusic(i,:));
-%         if isempty(tof_index)
-%             continue;
-%         end
-%         for j=1:size(tof_index)
-%             [~,aoa_index] = findpeaks(Pmusic(:, tof_index(j)));
-%             if isempty(aoa_index)
-%                 continue;
-%             end
-%             for k=1:size(aoa_index)
-%                 aoa_pair(aoa_pair_flag).theta = theta(aoa_index(k));
-%                 aoa_pair(aoa_pair_flag).tau = tau(tof_index(j));
-%                 aoa_pair_flag = aoa_pair_flag + 1;
-%             end
-%             
-%         end
-% 
-%         % disp(aoa_index);
-%     end
+    aoa_pair_flag = 1;
+    for i=1:size(Pmusic,1)
+        [~,tof_index] = findpeaks(Pmusic(i,:));
+        if isempty(tof_index)
+            continue;
+        end
+        for j=1:size(tof_index)
+            [~,aoa_index] = findpeaks(Pmusic(:, tof_index(j)));
+            if isempty(aoa_index)
+                continue;
+            end
+            for k=1:size(aoa_index)
+                aoa_pair(aoa_pair_flag).theta = theta(aoa_index(k));
+                aoa_pair(aoa_pair_flag).tau = tau(tof_index(j));
+                aoa_pair_flag = aoa_pair_flag + 1;
+            end
+            
+        end
+
+        % disp(aoa_index);
+    end
 
     % combain
-%     estimated_aoas = [aoa_pair(:).theta,tof_pair(:).theta]';
-%     estimated_tofs = [aoa_pair(:).tau,tof_pair(:).tau]';
-     estimated_aoas = [tof_pair(:).theta]';
-     estimated_tofs = [tof_pair(:).tau]';
+    estimated_aoas = [aoa_pair(:).theta,tof_pair(:).theta]';
+    estimated_tofs = [aoa_pair(:).tau,tof_pair(:).tau]';
 end
 
 function Pmusic = music_spectrum(theta,tau,frequency, sub_freq_delta, antenna_distance,eigenvectors)
@@ -95,8 +93,8 @@ function steering_vector = compute_steering_vector(theta, tau, freq, sub_freq_de
     steering_vector = zeros(30, 1);
     k = 1;
     base_element = 1;
-    for ii = 1:3
-        for jj = 1:30
+    for ii = 1:2
+        for jj = 1:15
             steering_vector(k, 1) = base_element * omega_tof_phase(tau, sub_freq_delta)^(jj - 1);
             k = k + 1;
         end

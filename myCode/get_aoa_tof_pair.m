@@ -16,24 +16,26 @@ function [aoa_packet_data, tof_packet_data] = get_aoa_tof_pair(csi_filepath, cou
         for i = 1:num_packets
             csi_entry = csi_trace{i};
             csi = get_scaled_csi(csi_entry);
+            snr = db(get_eff_SNRs(csi), 'pow');
             csi = csi(1, :, :);
             csi = squeeze(csi);
             csi = filter(b,a,csi);
             sanitized_csi = spotfi_algorithm_1(csi, sub_freq_delta);
             smoothed_sanitized_csi = smooth_csi(sanitized_csi);
-            [aoa_packet_data{i}, tof_packet_data{i}] = aoa_tof_music(smoothed_sanitized_csi, antenna_distance, frequency, sub_freq_delta, data_name);
+            [aoa_packet_data{i}, tof_packet_data{i}] = aoa_tof_music_origin(smoothed_sanitized_csi, antenna_distance, frequency, sub_freq_delta, snr(1,:), data_name);
             disp(i);
         end
     else
         parfor (i = 1:num_packets,4)
             csi_entry = csi_trace{i};
             csi = get_scaled_csi(csi_entry);
+            snr = db(get_eff_SNRs(csi), 'pow');
             csi = csi(1, :, :);
             csi = squeeze(csi);
             csi = filter(b,a,csi);
             sanitized_csi = spotfi_algorithm_1(csi, sub_freq_delta);
             smoothed_sanitized_csi = smooth_csi(sanitized_csi);
-            [aoa_packet_data{i}, tof_packet_data{i}] = aoa_tof_music(smoothed_sanitized_csi, antenna_distance, frequency, sub_freq_delta, data_name);
+            [aoa_packet_data{i}, tof_packet_data{i}] = aoa_tof_music(smoothed_sanitized_csi, antenna_distance, frequency, sub_freq_delta, snr(1,:), data_name);
             disp(i);
         end
     end

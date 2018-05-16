@@ -8,12 +8,20 @@ function csi_data = read_csi(filepath)
     for i=1:num_trace
         csi_entry = csi_trace{i};
         csi = get_scaled_csi(csi_entry);
-        csi = csi(1, :, :);
-        csi = squeeze(csi);
-        csi_data(i,1:30) = csi(1,:);
-        csi_data(i,31:60) = csi(2,:);
-        csi_data(i,61:90) = csi(3,:);
+        plot(db(abs(squeeze(csi(1,:,:)).')));
+        legend('RX Antenna A', 'RX Antenna B', 'RX Antenna C', 'Location', 'SouthEast' );
+        xlabel('Subcarrier index');
+        ylabel('SNR [dB]');
+        % hold on;
+        t = db(get_eff_SNRs(csi), 'pow');
+        % csi = csi(1, :, :);
+        % csi = squeeze(csi);
+        % csi_data(i,1:30) = csi(1,:);
+        % csi_data(i,31:60) = csi(2,:);
+        % csi_data(i,61:90) = csi(3,:);
     end
+    % 
+    
     
     phase = unwrap(angle(csi_data), pi, 2);
     Y = zeros(90,1);
