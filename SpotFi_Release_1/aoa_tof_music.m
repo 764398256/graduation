@@ -2,7 +2,7 @@ function [estimated_aoas, estimated_tofs] = aoa_tof_music(x, antenna_distance, f
     if nargin == 4
         data_name = '-';
     end
-    
+
     signal_N = 1;
     array_N = 3;
     carrier_N = 30;
@@ -47,16 +47,21 @@ function [estimated_aoas, estimated_tofs] = aoa_tof_music(x, antenna_distance, f
             aoa_pair(aoa_pair_flag).tau = tau(tof_index(j));
             aoa_pair_flag = aoa_pair_flag + 1;
         end
-
-        % disp(aoa_index);
     end
-
-    % combain
-    if aoa_isempty == 0
-        estimated_aoas = [aoa_pair(:).theta,tof_pair(:).theta]';
-        estimated_tofs = [aoa_pair(:).tau,tof_pair(:).tau]';
-    else
-        estimated_aoas = [tof_pair(:).theta]';
-        estimated_tofs = [tof_pair(:).tau]';
-    end
+    
+    res_index = 1;
+  if aoa_pair_flag > 1
+      for i=1:size(aoa_pair,2)
+        estimated_aoas(res_index) = aoa_pair(i).theta;
+        estimated_tofs(res_index) = aoa_pair(i).tau;
+        res_index = res_index + 1;
+      end
+  end
+  if tof_pair_flag > 1
+      for i=1:size(tof_pair,2)
+        estimated_aoas(res_index) = tof_pair(i).theta;
+        estimated_tofs(res_index) = tof_pair(i).tau;
+        res_index = res_index + 1;
+      end
+  end
 end

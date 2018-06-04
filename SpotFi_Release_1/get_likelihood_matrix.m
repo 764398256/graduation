@@ -1,6 +1,5 @@
 function result = get_likelihood_matrix(clusters,aoa_max,tof_max,counts_likelihood)
     fprintf('Phase 5: Get Likelihood Matrix\nStart:\n');
-    pause(3);
     clusters_struct = cluster_weight(clusters,aoa_max,tof_max);
     length = size(clusters_struct,2);
     tmp = zeros(length,2);
@@ -11,7 +10,7 @@ function result = get_likelihood_matrix(clusters,aoa_max,tof_max,counts_likeliho
         weight_num_cluster_points = 1e-2;
         weight_aoa_variance = -8e-2;
         weight_tof_variance = -1e17;
-        weight_tof_mean = -10e8;
+        weight_tof_mean = -1e8;
         tmp(i,1) = ...
             weight_num_cluster_points * clusters_struct(i).point_num ...
             + weight_aoa_variance * clusters_struct(i).aoa_var ...
@@ -35,11 +34,10 @@ function result = get_likelihood_matrix(clusters,aoa_max,tof_max,counts_likeliho
         result(i,2) = clusters_struct(likehood_index(i)).tof_mean;
     end
     fprintf('Phase 5 Finished.\n');
-    pause(1);
 end
 
 function clusters_struct = cluster_weight(clusters,aoa_max,tof_max)
-    parfor (i=1:size(clusters,1),4)
+    for i=1:size(clusters,1)
        tmp = clusters{i,1}.*[aoa_max,tof_max];
        clusters_struct(i).cluster = tmp;
        clusters_struct(i).point_num = size(tmp,1);

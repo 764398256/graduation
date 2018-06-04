@@ -1,4 +1,4 @@
-function [aoa_packet_data, tof_packet_data] = get_aoa_tof_pair(csi_filepath, counts_packets, antenna_distance, frequency, sub_freq_delta)
+function [test_aoa_packet_0,test_aoa_packet_1,test_aoa_packet_2] = get_aoa_tof_pair_test(csi_filepath, counts_packets, antenna_distance, frequency, sub_freq_delta)
     fprintf('Phase 2: Get AoA ToF Pair\nStart:\n');
     csi_trace = readfile(csi_filepath);
     num_packets = floor(length(csi_trace)/1);
@@ -6,12 +6,13 @@ function [aoa_packet_data, tof_packet_data] = get_aoa_tof_pair(csi_filepath, cou
     data_name = '-';
     
     num_packets = counts_packets;
-    aoa_packet_data = cell(num_packets, 1);
-    tof_packet_data = cell(num_packets, 1);
+    test_aoa_packet_0 = cell(10, 1);
+    test_aoa_packet_1 = cell(10, 1);
+    test_aoa_packet_2 = cell(10, 1);
     
     [b,a]=butter(3,0.6,'low');
 
-    for i = num_packets:num_packets+9
+    for i = 1:10
         csi_entry = csi_trace{i};
         csi = get_scaled_csi(csi_entry);
         csi = csi(1, :, :);
@@ -19,7 +20,7 @@ function [aoa_packet_data, tof_packet_data] = get_aoa_tof_pair(csi_filepath, cou
         csi = filter(b,a,csi);
         sanitized_csi = spotfi_algorithm_1(csi, sub_freq_delta);
         smoothed_sanitized_csi = smooth_csi(sanitized_csi);
-        [aoa_packet_data{i}, tof_packet_data{i}] = aoa_tof_music(smoothed_sanitized_csi, antenna_distance, frequency, sub_freq_delta, data_name);
+        [test_aoa_packet_0{i}, test_aoa_packet_1{i},test_aoa_packet_2{i}] = music_aoa_test(smoothed_sanitized_csi, antenna_distance, frequency, sub_freq_delta, data_name);
         disp(i);
     end
     fprintf('Phase 2 Finished.\n');
