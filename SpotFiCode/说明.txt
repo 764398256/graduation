@@ -1,0 +1,2 @@
+��SpotFi�ֳ���csi smoothing��calculate eigenvectors��calculate MUSIC spectrum��find peaks��clustering��tof sanitizing��calculate likelihoods������,��������
+run_spotfi(path)是程序入口
